@@ -55,8 +55,8 @@ data PathVersion = PathVersion
 
 instance FromJSON PutBody where
     parseJSON = withObject "PutBody" $ \o -> do
-        flags <- o .: flags
-        segments <- o .:? segments .!= emptyObject
+        flags <- o .: "flags"
+        segments <- o .:? "segments" .!= emptyObject
         pure $ PutBody {flags = flags, segments = segments}
 
 instance FromJSON a => FromJSON (PathData a) where
