@@ -128,6 +128,11 @@ makeClient config = mfix $ \client -> do
 
     clientContext <- makeClientContext config
 
+    runLogger clientContext $ do
+        if getField @"streaming" config
+            then $(logDebug) "streaming"
+            else $(logDebug) "polling"
+
     let dataSourceUpdates = defaultDataSourceUpdates status store
     dataSource <- getDataSourceFactory config clientContext dataSourceUpdates
     eventThreadPair <-
