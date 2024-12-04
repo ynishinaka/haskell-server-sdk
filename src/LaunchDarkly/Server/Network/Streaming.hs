@@ -3,7 +3,7 @@
 
 module LaunchDarkly.Server.Network.Streaming (streamingThread) where
 
-import Control.Applicative (many)
+import Control.Applicative (many, (<|>))
 import Control.Concurrent (threadDelay)
 import Control.Exception (throwIO)
 import Control.Monad (mzero, void)
