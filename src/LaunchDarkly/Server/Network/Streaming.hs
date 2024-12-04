@@ -209,8 +209,8 @@ readStream body dataSourceUpdates = loop "" False
                 Done remaining event -> do
                     processed <- processEvent dataSourceUpdates (name event) (L.fromStrict $ encodeUtf8 $ buffer event)
                     if processed then loop remaining True else pure processedEvent
-                Fail _ context err -> do
-                    $(logError) $ T.intercalate " " ["failed parsing SSE frame", T.pack $ show context, T.pack err]
+                Fail i context err -> do
+                    $(logError) $ T.intercalate " " ["failed parsing SSE frame", T.pack $ show context, T.pack err, i]
                     pure processedEvent
                 Partial _ -> do
                     $(logError) "failed parsing SSE frame unexpected partial"
