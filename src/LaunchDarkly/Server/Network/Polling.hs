@@ -27,7 +27,13 @@ data PollingResponse = PollingResponse
     { flags :: !(KeyMap Flag)
     , segments :: !(KeyMap Segment)
     }
-    deriving (Generic, FromJSON, Show)
+    deriving (Generic, Show)
+
+instance FromJSON PollingResponse where
+    parseJSON = withObject "PollingResponse" $ \o -> do
+        flags <- o .: "flags"
+        segments <- o .:? "segments" .!= emptyObject
+        pure $ PollingResponse {flags = flags, segments = segments}
 
 processPoll :: (MonadIO m, MonadLogger m, MonadMask m, MonadThrow m) => Manager -> DataSourceUpdates -> Request -> m Bool
 processPoll manager dataSourceUpdates request =
