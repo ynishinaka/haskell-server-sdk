@@ -4,7 +4,7 @@ import Control.Concurrent (threadDelay)
 import Control.Monad.Catch (MonadMask, MonadThrow)
 import Control.Monad.IO.Class (MonadIO, liftIO)
 import Control.Monad.Logger (MonadLogger, logDebug, logError)
-import Data.Aeson (FromJSON (..), eitherDecode)
+import Data.Aeson (FromJSON (..), eitherDecode, parseJSON, withObject, (.!=), (.:), (.:?))
 import Data.Generics.Product (getField)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -12,7 +12,7 @@ import GHC.Generics (Generic)
 import Network.HTTP.Client (Manager, Request (..), Response (..), httpLbs)
 import Network.HTTP.Types.Status (Status (statusCode), ok200)
 
-import LaunchDarkly.AesonCompat (KeyMap)
+import LaunchDarkly.AesonCompat (KeyMap, emptyObject)
 import LaunchDarkly.Server.Features (Flag, Segment)
 import LaunchDarkly.Server.Network.Common (checkAuthorization, handleUnauthorized, isHttpUnrecoverable, tryHTTP)
 
